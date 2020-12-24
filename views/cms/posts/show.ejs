@@ -28,10 +28,14 @@ console.log(this.id)
         axios.get("/api_cms_posts/show/" + id ).then(res =>  {
             var dat = res.data.docs
 console.log( dat )
+            var category = []
+            if(dat.category.length > 0){
+                category = dat.category[0]
+            }
             dat.content = marked(dat.content)
             this.setState({ 
                 data: dat,
-                category: dat.category[0],
+                category: category,
 //                category: 0,
             });            
 //console.log( this.state.data.title )
@@ -43,7 +47,7 @@ console.log( dat )
             <div>
                 <h1>title : {this.state.data.title}</h1>
                 Category: {this.state.category.name }<br />
-                Date: {this.state.data.created_at } <br />
+                Date: {this.state.data.date_str } <br />
                 <hr />
                 <div id="post_item" 
                 dangerouslySetInnerHTML={{ __html: this.state.data.content }} >

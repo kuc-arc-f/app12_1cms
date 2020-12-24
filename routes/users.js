@@ -37,22 +37,30 @@ router.post('/add', async function(req, res, next){
     try{ 
         if(LibCsrf.valid_token(req, res)== false){ return false; }
         let data = req.body
-        console.log( data );
+console.log( data );
         let hashed_password = bcrypt.hashSync(data.password, 10);
         var item = {
-            name: "",
+            name: data.name,
             mail: data.email ,  
             password: hashed_password ,
             created_at: new Date()
-        };        
+        }; 
+        var valid = await LibAuth.validUserMail(data.email)   
+        if(valid == false){
+            console.log("error, user add"); 
+            req.flash('err', 'Error , mail error');
+            res.redirect('/login')
+            return false;            
+//            throw new Error('Error, user add');  
+        } 
         const collection = await LibMongo.get_collection("users" )
         await collection.insertOne(item);
         req.flash('success', 'Complete, save User'); 
-        res.redirect('/')          
+        res.redirect('/login')          
     } catch (e) {
         console.log(e);
         req.flash('err', 'Error ,save User');
-        res.redirect('/')        
+        res.redirect('/login')        
     }    
 });
 

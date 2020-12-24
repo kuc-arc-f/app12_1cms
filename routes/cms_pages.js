@@ -5,9 +5,13 @@ import LibCommon from "../libs/LibCommon"
 import LibCsrf from "../libs/LibCsrf"
 import LibMongo from "../libs/LibMongo"
 var ObjectID = require('mongodb').ObjectID;
+import LibAuth from "../libs/LibAuth"
 
-/* GET users listing. */
+/******************************** 
+* 
+*********************************/
 router.get('/', function(req, res, next) {
+    LibAuth.cms_valid_user(req, res)
     var query = req.query;
     var page = 1;
     if(query.page != null){
@@ -32,6 +36,7 @@ router.get('/add',async function(req, res, next) {
 *********************************/
 router.post('/add', async function(req, res, next) {
     try{
+        LibAuth.cms_valid_user(req, res)
         if(LibCsrf.valid_token(req, res)== false){ return false; }
         var data = req.body
 console.log(data  )
@@ -61,6 +66,7 @@ console.log(req.params.id  );
 * 
 *********************************/
 router.get('/edit/:id',async function(req, res) {
+    LibAuth.cms_valid_user(req, res)
 console.log(req.params.id  );
     LibCsrf.set_token(req, res) 
     const collection = await LibMongo.get_collection("pages" )

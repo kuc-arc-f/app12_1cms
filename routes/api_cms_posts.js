@@ -10,6 +10,7 @@ import LibMongo from "../libs/LibMongo"
 import LibPagenate from "../libs/LibPagenate"
 import LibCmsPosts from "../libs/LibCmsPosts"
 import LibConst from "../libs/LibConst"
+import LibCommon from "../libs/LibCommon"
 
 /******************************** 
 * 
@@ -27,6 +28,7 @@ console.log( "page=",  page, page_info );
 //console.log(post_ids)
         var category_items = await LibCmsPosts.get_category_items(post_ids)
 // console.log(category_items )
+        posts = LibCommon.string_to_date(posts)
         var items = LibCmsPosts.get_post_items(posts , category_items)
         var param = LibPagenate.get_page_items(items )
         res.json(param);
@@ -53,8 +55,9 @@ console.log(req.params.id  );
                     as: "category"
                 }
             }]).toArray()        
-//        console.log(item)
-        var param = {"docs": item[0] };
+        var post = LibCommon.convert_string_date(item[0])
+console.log(post)
+        var param = {"docs": post };
         res.json(param);        
     } catch (err) {
         console.log(err);

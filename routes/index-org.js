@@ -19,7 +19,18 @@ router.get('/', function(req, res, next) {
             page = query.page
             console.log( "page=", page )
         }  
+        var user = LibAuth.get_user(req)
+        var mail = null
+        var valid_login = false
+        if(user != null){
+            valid_login = true
+            mail = user.mail
+console.log(user);
+        }
+        var base_items = { valid_login: valid_login }
         res.render('index', { 
+            mail: mail ,
+            base_items: base_items,
             "page": page,
             view_group_user: true,
         });
@@ -33,8 +44,20 @@ router.get('/', function(req, res, next) {
 router.get('/show/:id', function(req, res, next) {
     try{
         console.log(req.params.id  );
+        var user = LibAuth.get_user(req)
+        var mail = null
+        var valid_login = false
+        if(user != null){
+            valid_login = true
+            mail = user.mail
+//            console.log(user.password );
+        }
+//        res.render('cms/posts/show', {"params_id": req.params.id });        
+        var base_items = { valid_login: valid_login }
         res.render('show', { 
             "params_id": req.params.id,
+            mail: mail ,
+            base_items: base_items,
             view_group_user: true,
         });
     } catch (e) {
@@ -46,8 +69,19 @@ router.get('/show/:id', function(req, res, next) {
 *********************************/
 router.get('/pages/:id', function(req, res, next) {
     try{
+        var user = LibAuth.get_user(req)
+        var mail = null
+        var valid_login = false
+        if(user != null){
+            valid_login = true
+            mail = user.mail
+//            console.log(user.password );
+        }
+        var base_items = { valid_login: valid_login }
         res.render('page', {
             "params_id": req.params.id, 
+            mail: mail ,
+            base_items: base_items,
             view_group_user: true,
         });
     } catch (e) {

@@ -6,22 +6,23 @@ import LibCsrf from "../libs/LibCsrf"
 import LibMongo from "../libs/LibMongo"
 import LibAuth from "../libs/LibAuth"
 var ObjectID = require('mongodb').ObjectID;
+
 /******************************** 
 * 
 *********************************/
 router.get('/', function(req, res, next) {
     try{
+        LibAuth.cms_valid_user(req, res)
         var user = LibAuth.get_user(req)
-        var mail = null
+//console.log(v )
         var valid_login = false
         if(user != null){
             valid_login = true
-            mail = user.mail
-//            console.log(user.password );
+console.log(user );
         }
         var base_items = { valid_login: valid_login }
         res.render('cms', { 
-            mail: mail ,
+            user: user ,
             base_items: base_items,
         });
     } catch (e) {

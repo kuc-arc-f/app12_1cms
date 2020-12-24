@@ -32,7 +32,7 @@ console.log( data)
         var valid_user = await LibAuth.validUserAuth(res ,data.email, data.password )
         if (valid_user){
             req.flash('success', 'Welcom, Login completed.');  
-            res.redirect('/')
+            res.redirect('/cms')
         }else{
             req.flash('err', 'Error Login, authrize NG');
             console.log("error, login");

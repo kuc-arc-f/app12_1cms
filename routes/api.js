@@ -8,6 +8,7 @@ import LibPagenate from "../libs/LibPagenate"
 import LibCmsPosts from "../libs/LibCmsPosts"
 import LibTop from "../libs/LibTop"
 import LibConst from "../libs/LibConst"
+import LibCommon from "../libs/LibCommon"
 
 /******************************** 
 * 
@@ -25,7 +26,8 @@ console.log( "page=",  page, page_info );
 //console.log(post_ids)
         var category_items = await LibCmsPosts.get_category_items(post_ids)
         var pages =await LibTop.get_pages_items()
-// console.log(pages)
+        posts = LibCommon.string_to_date(posts)
+// console.log(posts)
         var items = LibCmsPosts.get_post_items(posts , category_items)
         var param = LibPagenate.get_page_items(items )
         param.pages = pages
@@ -55,7 +57,7 @@ console.log( "#category_id:",category_id)
             { category_id: new ObjectID(category_id) } , limit 
             ).sort({created_at: -1}).toArray()
         var post_ids = LibCmsPosts.get_bread_ids(posts)
-console.log(posts)
+// console.log(posts)
         var category_items = await LibCmsPosts.get_category_items(post_ids)
         var pages =await LibTop.get_pages_items()
 // console.log(pages)

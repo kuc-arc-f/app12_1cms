@@ -6,6 +6,7 @@ const { performance } = require('perf_hooks');
 import LibMongo from "../libs/LibMongo"
 import LibTasks from "../libs/LibTasks"
 import LibPagenate from "../libs/LibPagenate"
+import LibCommon from "../libs/LibCommon"
 
 /******************************** 
 * 
@@ -56,7 +57,9 @@ console.log(req.params.id  );
         const collection = await LibMongo.get_collection("pages" )
         var where = { _id: new ObjectID(req.params.id) }
         var task = await collection.findOne(where) 
-        var param = {"docs": task };
+        var post = LibCommon.convert_string_date(task)
+console.log(post);
+        var param = {"docs": post };
         res.json(param);        
     } catch (err) {
         console.log(err);

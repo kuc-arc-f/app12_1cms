@@ -20,7 +20,7 @@ class TopRow extends React.Component {
                             <span className="mr-2 time_icon_wrap">
                                 <i className="far fa-calendar"></i>
                             </span>
-                            {this.props.obj.created_at}
+                            {this.props.obj.date_str }
                         </p>
                         <span className="folder_icon_wrap mr-2">
                                 <i className="fas fa-folder"></i> {category_name}                  

@@ -28,17 +28,21 @@ console.log(this.id)
         axios.get("/api_cms_posts/show/" + id ).then(res =>  {
             var dat = res.data.docs
 console.log( dat )
+            var category = []
+            if(dat.category.length > 0){
+                category = dat.category[0]
+            }
             dat.content = marked(dat.content)
             this.setState({ 
                 data: dat,
-                category: dat.category[0],
-//                category: 0,
+//                category: dat.category[0],
+                category: category,
             });            
-//console.log( this.state.data.title )
+//console.log( category)
         })        
     }    
     render(){
-//        console.log(this.state.category)
+//console.log(this.state.category)
         return (
             <div>
                 <div className="show_head_wrap">
@@ -48,7 +52,7 @@ console.log( dat )
                 <hr />                
                 <h1>{this.state.data.title}</h1>
                 Category: {this.state.category.name }<br />
-                Date: {this.state.data.created_at } <br />
+                Date: {this.state.data.date_str } <br />
                 <hr />
                 <div id="post_item" 
                 dangerouslySetInnerHTML={{ __html: this.state.data.content }} >

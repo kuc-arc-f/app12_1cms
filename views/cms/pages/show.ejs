@@ -33,7 +33,7 @@ console.log( dat )
         return (
             <div>
                 <h1>{this.state.data.title}</h1>
-                Date: {this.state.data.created_at }
+                Date: {this.state.data.date_str }
                 <hr />
                 <div id="post_item" 
                 dangerouslySetInnerHTML={{ __html: this.state.data.content }} >

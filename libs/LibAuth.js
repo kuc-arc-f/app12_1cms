@@ -4,7 +4,6 @@ const {promisify} = require('util');
 
 import LibCookie from "../libs/LibCookie"
 import LibMongo from "../libs/LibMongo"
-
 //
 export default {
     get_user:function(req){
@@ -17,6 +16,24 @@ export default {
 //          console.log(user.password );
         }        
         return user;        
+    },
+    cms_valid_user:function(req, res){
+        try{
+            var ret = false;
+            var user_json = req.cookies.user;
+            if(user_json == null ){
+//                console.log( user_json )
+                throw new Error('Invalid , cms_valid_user');          
+//                ret = true;
+            }
+            return ret;
+        } catch (e) {
+            console.log(e);
+            console.log("error, cms_valid_user");
+            req.flash('err', 'Error , Login please.');
+            res.redirect('/login')
+            return false
+        }         
     },
     valid_user:function(req){
         var ret = false;
@@ -37,6 +54,8 @@ console.log("user:", user  )
             if(user != null){
                 if(bcrypt.compareSync( password,  user.password )){
                     ret = true
+                    user.mail = ""
+                    user.password = ""
                     var json = JSON.stringify( user );
                     LibCookie.set_cookie(res, 'user', json)                    
                 }
@@ -46,6 +65,22 @@ console.log("user:", user  )
             console.log(e);
             return false
         }   
-    },        
-
+    }, 
+    validUserMail:async function(mail){
+        try{
+            const collection = await LibMongo.get_collection("users" )
+            var users = await collection.find({
+                mail : mail
+            }).toArray()
+console.log(users.length )
+            if(users.length > 0){
+                throw new Error('Invalid , validUserMail');
+            }
+            return true
+        } catch (e) {
+            console.log(e);
+            console.log("error, validUserMail");
+            return false
+        }
+    },           
 }
