@@ -64,7 +64,6 @@
 </div>
 
 <!-- --->
-<script src="/js/ImageTransfer.js" ></script>
 <script>
 var CATEGORY_ID = '<%= item.category_id %>';
 $('select[name="category_id"]').val(CATEGORY_ID);
@@ -72,9 +71,8 @@ $('select[name="category_id"]').val(CATEGORY_ID);
 //
 window.document.getElementById("file1").addEventListener("change", function() {
     console.log("#change");
-    ImageTransfer.upload('file1');
+    upload();
 });
-
 //
 function proc_preview(id){
     // mode
@@ -86,8 +84,41 @@ function open_upload(){
     console.log("#-open_upload")
     $("#file1").click()
 }
-
-
+//
+function upload_cb(img_url){
+    console.log("#upload");
+    var md_img = "![img](" + img_url + ")"
+    var txt = $("#content").val()
+    txt = txt + '\r\n' + '***\r\n' + md_img
+//console.log(txt);
+    $("#content").val(txt)
+}
+//
+function upload(){
+    console.log("#upload");
+    var files = window.document.getElementById('file1').files;
+    var fileObject = files[0];
+    if (typeof fileObject === "undefined") {
+        return;
+    }
+    var formData = new FormData();
+        formData.append("file1", fileObject );
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var data = JSON.parse(xhr.response)
+                    console.log("OK, up");
+                    console.log(data);
+                    upload_cb(data.img_url);
+                } else {
+                    console.log("NG, up");
+                }
+            }
+        }
+        xhr.open("POST", "/api_cms_posts/file_upload");
+        xhr.send(formData);    
+}
 </script>
 
 
