@@ -1,0 +1,154 @@
+<%- include("layout/top_head", null ) %>
+<div class="container">
+    <div id="app"></div>
+</div>
+<!-- -->
+<script type="text/babel" src="/js/component/TopRow.js" ></script>
+<script type="text/babel" src="/js/component/PagesRow.js" ></script>
+<script type="text/babel">
+var PAGE = <%= page %>;
+//
+class List extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: '', item_count:0, paginate_disp:0,
+            pages: '' ,category: ''
+        }
+        this.db = null
+        this.handleClickCategory = this.handleClickCategory.bind(this);
+    }
+    componentDidMount(){
+        console.log("PAGE:", PAGE)
+        this.get_items(PAGE);
+    }
+    get_items(PAGE){
+        axios.get("/api/index?page=" +PAGE).then(res =>  {
+            var data = res.data
+            var items = data.docs
+            var item_count = data.page_item.item_count
+            var paginate_disp = data.page_item.paginate_disp;
+
+            var arr =[];
+            this.setState({ 
+                data: items ,item_count:item_count ,paginate_disp: paginate_disp,
+                pages: data.pages, category: data.category,
+            })
+// console.log( data );
+        })
+    }
+    search_category(category_id){
+        axios.get("/api/search_category?category_id=" + category_id ).then(res =>  {
+            var data = res.data
+            var items = data.docs
+            var arr =[];
+            this.setState({ 
+                data: items
+            })
+// console.log( data );
+        })        
+    }
+    handleClickCategory(id){
+console.log(id)     
+        this.search_category(id)
+//this.setState({ data: new_data })
+    }
+    categoryRow(){
+        if(this.state.category instanceof Array){
+            var self = this
+            return this.state.category.map(function(object, i){
+// console.log(object._id)
+                return (
+                <span key={i}>
+                    <button  className="btn btn-outline-dark ml-2 mb-2" 
+                    onClick={self.handleClickCategory.bind(this, object._id )}>
+                    {object.name}</button>
+                </span>
+                )
+            })
+        }
+    }    
+    pageRow(){
+        if(this.state.pages instanceof Array){
+//            console.log(this.state.pages)
+            return this.state.pages.map(function(object, i){
+                return <PagesRow obj={object} key={i} />
+            })                            
+        }
+    }  
+    tabRow(){
+        if(this.state.data instanceof Array){
+            return this.state.data.map(function(object, index){
+//console.log(object );
+                return <TopRow obj={object} key={index} />
+            })
+        }
+    }
+    dispPagenate(){
+//console.log(this.state.paginate_disp)
+        if(this.state.paginate_disp ===1){
+            var url = "/tasks?page="
+            return(
+            <div className="paginate_wrap">
+                <div className="btn-group" role="group" aria-label="Basic example">
+                    <a href={url+ 1} className="btn btn-outline-primary"> 1st  </a>
+                    <a href={url+ (PAGE+1)} className="btn btn-outline-primary"> > </a>
+                </div>
+            </div>
+            )
+        }
+    }    
+    render(){
+        return (
+            <div>
+                <div className="btn_hidden_ara_wrap">
+                    <div className="category_wrap">
+                        <div className="row conte mt-4 mb-2">
+                            <div className="col-sm-12">
+                                <h2 className ="h4_td_title mt-2" >Pages</h2>
+                                <div className="page_btn_wrap mb-0">
+                                    {this.pageRow()}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="category_wrap">
+                        <div className="row conte mt-4 mb-2">
+                            <div className="col-sm-12">
+                                <h2 className ="h4_td_title mt-2" >Category</h2>
+                                {this.categoryRow()}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className ="body_wrap mt-4 mb-2" >
+                    <div id="post_items_box" className="row conte mt-2">
+                        <div className="col-sm-12">
+                            <div id="div_news">
+                                <h2 className="h4_td_title mt-2" >New Posts</h2>
+                            </div>
+                            {this.tabRow()}
+                        </div>
+                    </div>
+                </div>
+ 
+                <hr />
+                {this.dispPagenate()}
+                <br /><br />           
+            </div>
+        )
+    }
+}
+ReactDOM.render(<List />, document.getElementById('app'));
+$(function(){
+	$( '.menu_display_btn' ).click( function() {
+		$('.btn_hidden_ara_wrap').css('display','inherit');
+	});
+});
+</script>
+<!-- -->
+<style>
+.body_main_wrap{
+    background-color: #EEE;
+}
+</style>

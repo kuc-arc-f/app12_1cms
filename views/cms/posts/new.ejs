@@ -1,0 +1,34 @@
+<div id="app">
+    <a href="/cms_posts">[ Back ]</a>
+    <hr />
+    <h1>Posts add</h1>
+    <hr />
+    <form action="/cms_posts/add" method="post">
+        <div class="col-sm-6 form-control">
+            <label>Cateogry:</label>
+            <select class="form-control" name="category_id">
+            <% category.forEach(function(item){ %>
+                <option value="<%= item._id %>"><%= item.name  %>
+                </option>
+            <% }) %>        
+            </select>
+        </div>
+        <div class="col-sm-6 form-control mt-2">
+            <p>
+                <label>title :
+                <input type="text" name="title" size="30" maxlength="40" required>
+                </label>
+            </p>
+        </div>
+        <div class="col-sm-9 form-control mt-2">
+            <label>content :</label>
+            <textarea name="content" rows="12" class="form-control" required></textarea>
+        </div>
+        <hr />
+        <div>
+            <input type="submit" value="Save"/>
+            <br /><br />
+        </div>
+    </form>    
+</div>
+

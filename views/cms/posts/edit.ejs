@@ -1,0 +1,124 @@
+<div class="row">
+    <div class="col-sm-6">
+        <a href="/cms_posts">[ Back ]</a>
+    </div>
+    <div class="col-sm-6">
+        <button onClick="proc_preview('<%= item._id %>');">Preview</button>
+    </div>
+</div>
+<div id="app">
+    <h3 class="mt-2">Posts edit</h3>
+    <hr class="mt-2 mb-2" />
+    <div class="row">
+        <div class="col-sm-9">
+            <form action="/cms_posts/update" method="post" name="form1">
+                <input type="hidden" name="id" size="30" maxlength="40"
+                value="<%= item._id %>" required>
+                <input type="hidden" name="mode" id="mode" value="update" />
+                <div>
+                    <label>Cateogry:
+                    <select class="form-control" name="category_id">
+                        <% category.forEach(function(item){ %>
+                            <option value="<%= item._id %>"><%= item.name  %>
+                            </option>
+                        <% }) %>        
+                    </select>            
+                    </label>
+                </div>
+                <div class="mt-0">
+                    <label>Title :
+                    </label>
+                    <input class="form-control col-sm-9" type="text" name="title" maxlength="40"
+                    value="<%= item.title %>" required />
+                </div>
+                <div class="mt-0">
+                    <label>Content :</label>
+                    <textarea name="content" id="content" rows="12"
+                     class="form-control" required><%= item.content %></textarea>                    
+                </div>
+                <div class="mt-2">
+                    <input type="submit" value="Save"/>
+                </div>
+            </form>            
+
+        </div>
+        <div class="col-sm-3">
+            <div style="display: none;">
+                <input type="file" name="file1" id="file1"><br /><br />
+            </div>
+            <button onClick="open_upload();"
+             class="btn btn-sm btn-outline-primary">ImageUpload</button>
+        </div>
+
+    </div>
+
+    <hr />
+    <form action="/cms_posts/delete" method="post">
+        <div>
+            <input type="hidden" name="id" value="<%= item._id %>" required>                
+            <input type="submit" value="Delete"/>
+        </div>
+        <br />
+        <br />
+    </form>
+</div>
+
+<!-- --->
+<script>
+var CATEGORY_ID = '<%= item.category_id %>';
+$('select[name="category_id"]').val(CATEGORY_ID);
+//console.log($('select[name="category_id"]').val() )
+//
+window.document.getElementById("file1").addEventListener("change", function() {
+    console.log("#change");
+    upload();
+});
+//
+function proc_preview(id){
+    // mode
+    $("#mode").val("preview")
+    document.form1.submit();
+}
+//
+function open_upload(){
+    console.log("#-open_upload")
+    $("#file1").click()
+}
+//
+function upload_cb(img_url){
+    console.log("#upload");
+    var md_img = "![img](" + img_url + ")"
+    var txt = $("#content").val()
+    txt = txt + '\r\n' + '***\r\n' + md_img
+//console.log(txt);
+    $("#content").val(txt)
+}
+//
+function upload(){
+    console.log("#upload");
+    var files = window.document.getElementById('file1').files;
+    var fileObject = files[0];
+    if (typeof fileObject === "undefined") {
+        return;
+    }
+    var formData = new FormData();
+        formData.append("file1", fileObject );
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var data = JSON.parse(xhr.response)
+                    console.log("OK, up");
+                    console.log(data);
+                    upload_cb(data.img_url);
+                } else {
+                    console.log("NG, up");
+                }
+            }
+        }
+        xhr.open("POST", "/api_cms_posts/file_upload");
+        xhr.send(formData);    
+}
+</script>
+
+

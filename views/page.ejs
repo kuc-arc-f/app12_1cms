@@ -1,0 +1,70 @@
+<div class="container page_body_wrap">
+    <div class="row">
+        <div class="col-sm-6">
+            <a class="btn btn-outline-primary mt-2" href="/">Back</a>
+        </div>
+        <div class="col-sm-6">
+        </div>
+    </div>
+    <hr class="mt-2 mb-2" />
+    <div id="app"></div>
+</div>
+<!-- -->
+<script src="/js/marked.min.js" ></script>
+<script type="text/babel">
+
+class Page extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {data: '', category: '' }
+        this.id = props.id
+console.log(this.id)
+    }
+    componentDidMount(){
+        this.get_item( this.id )        
+    }
+    async get_item(id){
+        axios.get("/api_cms_pages/show/" + id ).then(res =>  {
+            var dat = res.data.docs
+console.log( dat )
+            dat.content = marked(dat.content)
+            this.setState({ 
+                data: dat,
+            });            
+        })        
+    }    
+    render(){
+        return (
+            <div>
+                <div className="show_head_wrap">
+                    <i className="fas fa-home"></i> >
+                    {this.state.data.title}
+                </div>
+                <hr />                
+                <h1>{this.state.data.title}</h1>
+                Date: {this.state.data.created_at } <br />
+                <hr />
+                <div id="post_item" 
+                dangerouslySetInnerHTML={{ __html: this.state.data.content }} >
+                </div>                
+            </div>
+        )
+    }
+}
+ReactDOM.render(<Page id="<%= params_id %>"  />, document.getElementById('app'));
+</script>
+<!-- -->
+<style>
+.page_body_wrap{ background-color: #FFF }
+div#post_item > p > img{
+    max-width : 100%;
+    height : auto;
+}
+div#post_item > hr {
+    height: 1px;
+    background-color: #000;
+    border: none;
+}
+
+.show_head_wrap{ font-size: 1.4rem; }
+</style>
