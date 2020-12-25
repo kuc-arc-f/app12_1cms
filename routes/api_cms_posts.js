@@ -43,7 +43,7 @@ console.log( "page=",  page, page_info );
 * 
 *********************************/
 router.get('/show/:id', async function(req, res) {
-console.log(req.params.id  );
+// console.log(req.params.id  );
     var item = []
     try{
         const collection = await LibMongo.get_collection("posts" )
@@ -58,7 +58,7 @@ console.log(req.params.id  );
                 }
             }]).toArray()        
         var post = LibCommon.convert_string_date(item[0])
-console.log(post)
+// console.log(post)
         var param = {"docs": post };
         res.json(param);        
     } catch (err) {

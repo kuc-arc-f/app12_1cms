@@ -17,7 +17,7 @@ router.get('/index', async function(req, res) {
         var page = req.query.page;
         LibPagenate.init();
         var page_info = LibPagenate.get_page_start(page);       
-console.log( "page=",  page, page_info ); 
+// console.log( "page=",  page, page_info ); 
         var limit = {skip: page_info.start , limit: page_info.limit }
         collection.find({} , limit ).sort({created_at: -1}).toArray(function(err, result) {
             if (err) throw err;
@@ -52,13 +52,13 @@ router.post('/tasks_new', async function(req, res){
 * 
 *********************************/
 router.get('/show/:id', async function(req, res) {
-console.log(req.params.id  );
+// console.log(req.params.id  );
     try{
         const collection = await LibMongo.get_collection("pages" )
         var where = { _id: new ObjectID(req.params.id) }
         var task = await collection.findOne(where) 
         var post = LibCommon.convert_string_date(task)
-console.log(post);
+// console.log(post);
         var param = {"docs": post };
         res.json(param);        
     } catch (err) {

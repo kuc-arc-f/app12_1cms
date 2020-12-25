@@ -19,7 +19,7 @@ router.get('/index', async function(req, res) {
         var page = req.query.page;
         LibPagenate.init();
         var page_info = LibPagenate.get_page_start(page);       
-console.log( "page=",  page, page_info ); 
+// console.log( "page=",  page, page_info ); 
         var limit = {skip: page_info.start , limit: page_info.limit }
         var posts = await collection.find({} , limit ).sort({created_at: -1}).toArray()
         var post_ids = LibCmsPosts.get_bread_ids(posts)
@@ -49,7 +49,7 @@ router.get('/search_category', async function(req, res) {
     try{
         const collection = await LibMongo.get_collection("posts" )
         var category_id = req.query.category_id;
-console.log( "#category_id:",category_id)
+// console.log( "#category_id:",category_id)
         var page = req.query.page;
         LibPagenate.init();
         var page_info = LibPagenate.get_page_start(page);       
