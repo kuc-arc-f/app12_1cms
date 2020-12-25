@@ -15,7 +15,7 @@ import LibCommon from "../libs/LibCommon"
 *********************************/
 router.get('/index', async function(req, res) {
     try{
-        const collection = await LibMongo.get_collection("posts" )
+        var collection = await LibMongo.get_collection("posts" )
         var page = req.query.page;
         LibPagenate.init();
         var page_info = LibPagenate.get_page_start(page);       
@@ -27,8 +27,11 @@ console.log( "page=",  page, page_info );
         var category_items = await LibCmsPosts.get_category_items(post_ids)
         var pages =await LibTop.get_pages_items()
         posts = LibCommon.string_to_date(posts)
-// console.log(posts)
+
         var items = LibCmsPosts.get_post_items(posts , category_items)
+        collection = await LibMongo.get_collection("category" )
+        category_items = await collection.find({}).sort({created_at: -1}).toArray()
+ //console.log(category_items)
         var param = LibPagenate.get_page_items(items )
         param.pages = pages
         param.category = category_items
