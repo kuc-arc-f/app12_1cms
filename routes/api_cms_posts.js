@@ -11,6 +11,8 @@ import LibPagenate from "../libs/LibPagenate"
 import LibCmsPosts from "../libs/LibCmsPosts"
 import LibConst from "../libs/LibConst"
 import LibCommon from "../libs/LibCommon"
+import LibCsrf from "../libs/LibCsrf"
+
 
 /******************************** 
 * 
@@ -102,6 +104,7 @@ router.get('/tasks_delete/:id',async function(req, res) {
 router.post('/file_upload', multer({dest: '/tmp/samplefup/'}).single('file1'), 
  async function(req, res) {
     try{ 
+        if(LibCsrf.valid_token(req, res)== false){ return false; }
         var sys_const = LibConst.get_const()
 //console.log( sys_const.upload_img_dir )        
 //console.log(req.file.path, req.file.originalname);

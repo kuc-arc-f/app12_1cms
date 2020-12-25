@@ -35,6 +35,15 @@ router.get('/add', function(req, res, next) {
 *********************************/
 router.post('/add', async function(req, res, next){
     try{ 
+        const collection = await LibMongo.get_collection("users" )
+        var users = await collection.find().toArray();
+//console.log( users );
+console.log( "u-len :", users.length );
+        if(users.length > 0){
+            req.flash('err', 'Error , admin user exist, max 1 user');
+            res.redirect('/login')
+            return false;            
+        }
         if(LibCsrf.valid_token(req, res)== false){ return false; }
         let data = req.body
 console.log( data );
@@ -53,7 +62,6 @@ console.log( data );
             return false;            
 //            throw new Error('Error, user add');  
         } 
-        const collection = await LibMongo.get_collection("users" )
         await collection.insertOne(item);
         req.flash('success', 'Complete, save User'); 
         res.redirect('/login')          
