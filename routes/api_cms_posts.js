@@ -119,7 +119,8 @@ router.post('/file_upload', multer({dest: '/tmp/samplefup/'}).single('file1'),
         var params ={
             ret: 1,
             fname: fname,
-            img_url: sys_const.url_root + "/img/" + fname ,
+//            img_url: sys_const.url_root + "/img/" + fname ,
+            img_url: "/img/" + fname ,
         }
         res.json(params);
     } catch (e) {
