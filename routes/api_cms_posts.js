@@ -105,21 +105,25 @@ router.post('/file_upload', multer({dest: '/tmp/samplefup/'}).single('file1'),
  async function(req, res) {
     try{ 
         if(LibCsrf.valid_token(req, res)== false){ return false; }
-        var sys_const = LibConst.get_const()
+//        var sys_const = LibConst.get_const()
 //console.log( sys_const.upload_img_dir )        
 //console.log(req.file.path, req.file.originalname);
 //console.log("originalname=", req.file.originalname);
         var s = moment().format("YYYYMMDDHHmmss")
         var fname = req.file.originalname
         fname = s + "_" +fname
-        fs.rename(req.file.path, sys_const.upload_img_dir + fname, (err) => {
+        // /home/naka/work/node/express/app12/public/img/
+        var dir_routes = __dirname
+        var dir_root = dir_routes.replace('routes', '')
+        var dist_dir = dir_root + "/public/img/"
+        //         fs.rename(req.file.path, sys_const.upload_img_dir + fname, (err) => {
+        fs.rename(req.file.path, dist_dir + fname, (err) => {
             if (err) throw err;
 //            console.log('ファイルを移動しました');
         });
         var params ={
             ret: 1,
             fname: fname,
-//            img_url: sys_const.url_root + "/img/" + fname ,
             img_url: "/img/" + fname ,
         }
         res.json(params);

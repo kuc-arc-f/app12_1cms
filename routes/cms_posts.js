@@ -142,6 +142,11 @@ router.get('/test', function(req, res, next) {
 //    console.log( sys_const.upload_img_dir )
     var dt = moment().format("YYYYMMDDHHmmss")
     console.log(dt)
+console.log( "dr=", __dirname)
+    var dir = __dirname
+    var dir_toor = dir.replace('routes', '')
+console.log( "dir=", dir.replace('routes', ''));
+//    console.log( "get=",app.get('title') )
 
     res.render('cms/posts/test2', {});
 });
