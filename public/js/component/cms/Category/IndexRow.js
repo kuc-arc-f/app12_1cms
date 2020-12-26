@@ -10,7 +10,8 @@ class IndexRow extends React.Component {
             </td>
             <td>
                 <h3>{this.props.obj.name}</h3>
-                <a href={"/cms_category/edit/"+ this.props.obj._id}> [ edit ]
+                <a class="btn btn-sm btn-outline-primary" 
+                 href={"/cms_category/edit/"+ this.props.obj._id}>Edit
                 </a><br />
                 {this.props.obj.date_str}
 

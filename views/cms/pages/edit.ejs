@@ -6,26 +6,28 @@
             <input type="hidden" name="id" size="30" maxlength="40"
             value="<%= item._id %>" required>
             <p>
-                <label>title :
+                <label>Title :
                 <input type="text" name="title" size="30" maxlength="40"
                 value="<%= item.title %>" required>
                 </label>
             </p>
         </div>
         <div>
-            <label>content :</label>
+            <label>Content :</label>
             <textarea name="content" rows="12"
              class="form-control" required><%= item.content %></textarea>
         </div>
         <div>
-            <input type="submit" value="Save"/>
+            <input class="btn btn-primary mt-2"
+             type="submit" value="Save"/>
         </div>
     </form>    
     <hr />
     <form action="/cms_pages/delete" method="post">
         <div>
             <input type="hidden" name="id" value="<%= item._id %>" required>                
-            <input type="submit" value="Delete"/>
+            <input class="btn btn-danger"
+            type="submit" value="Delete"/>
         </div>
     </form>
 </div>

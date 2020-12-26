@@ -1,23 +1,23 @@
 <div id="app">
-    <a href="/cms_pages">[ Back ]</a>
+    <a class="btn btn-outline-primary" href="/cms_pages">Back</a>
     <hr />
     <h1>Pages add</h1>
     <hr />
     <form action="/cms_pages/add" method="post">
         <div class="col-sm-9 form-control mt-2">
             <p>
-                <label>title :
+                <label>Title :
                 <input type="text" name="title" size="30" maxlength="40" required>
                 </label>
             </p>
         </div>
         <div class="col-sm-9 form-control mt-2">
-            <label>content :</label>
+            <label>Content :</label>
             <textarea name="content" rows="12" class="form-control" required></textarea>
         </div>
         <hr />
         <div>
-            <input type="submit" value="Save"/>
+            <input class="btn btn-primary" type="submit" value="Save"/>
         </div>
     </form>    
 </div>

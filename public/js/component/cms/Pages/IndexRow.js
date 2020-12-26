@@ -11,7 +11,8 @@ class IndexRow extends React.Component {
             <td>
                 <a href={"/cms_pages/show/"+ this.props.obj._id}><h3>{this.props.obj.title}</h3>
                 </a>                
-                <a href={"/cms_pages/edit/"+ this.props.obj._id}> [ edit ]
+                <a class="btn btn-sm btn-outline-primary"
+                 href={"/cms_pages/edit/"+ this.props.obj._id}>Edit
                 </a><br />
                 {this.props.obj.created_at}
 

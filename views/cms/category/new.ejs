@@ -1,21 +1,24 @@
 <div id="app">
+    <a class="btn btn-outline-primary" href="/cms_category">Back</a>
+    <hr class="mt-2 mb-2" />    
     <h1>Category add</h1>
     <hr />
     <form action="/cms_category/add" method="post">
         <div>
             <p>
-                <label>name :
+                <label>Name :
                 <input type="text" name="name" size="30" maxlength="40" required>
                 </label>
             </p>
         </div>
         <div>
-            <label>content :</label>
+            <label>Content :</label>
             <input type="text" name="content" size="30" />
         </div>
         <hr />
         <div>
-            <input type="submit" value="Save"/>
+            <input class="btn btn-primary" 
+            type="submit" value="Save"/>
         </div>
     </form>    
 </div>

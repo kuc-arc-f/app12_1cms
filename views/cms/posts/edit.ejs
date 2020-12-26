@@ -1,9 +1,10 @@
 <div class="row">
     <div class="col-sm-6">
-        <a href="/cms_posts">[ Back ]</a>
+        <a class="btn btn-outline-primary" href="/cms_posts">Back</a>
     </div>
     <div class="col-sm-6">
-        <button onClick="proc_preview('<%= item._id %>');">Preview</button>
+        <button class="btn btn-outline-primary"
+         onClick="proc_preview('<%= item._id %>');">Preview</button>
     </div>
 </div>
 <div id="app">
@@ -37,7 +38,7 @@
                      class="form-control" required><%= item.content %></textarea>                    
                 </div>
                 <div class="mt-2">
-                    <input type="submit" value="Save"/>
+                    <input class="btn btn-primary" type="submit" value="Save"/>
                 </div>
             </form>            
 
@@ -56,7 +57,7 @@
     <form action="/cms_posts/delete" method="post">
         <div>
             <input type="hidden" name="id" value="<%= item._id %>" required>                
-            <input type="submit" value="Delete"/>
+            <input class="btn btn-danger" type="submit" value="Delete"/>
         </div>
         <br />
         <br />

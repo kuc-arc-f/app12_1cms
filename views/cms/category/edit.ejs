@@ -1,4 +1,6 @@
 <div id="app">
+    <a class="btn btn-outline-primary" href="/cms_category">Back</a>
+    <hr class="mt-2 mb-2" />
     <h1>Category edit</h1>
     <hr />
     <form action="/cms_category/update" method="post">
@@ -13,19 +15,20 @@
             </p>
         </div>
         <div>
-            <label>content :</label>
+            <label>Content :</label>
             <input type="text" name="content" size="30" maxlength="40"
             value="<%= item.content %>" />            
         </div>
+        <hr />
         <div>
-            <input type="submit" value="Save"/>
+            <input class="btn btn-primary" type="submit" value="Save"/>
         </div>
     </form>    
     <hr />
     <form action="/cms_category/delete" method="post">
         <div>
             <input type="hidden" name="id" value="<%= item._id %>" required>                
-            <input type="submit" value="Delete"/>
+            <input class="btn btn-danger" type="submit" value="Delete"/>
         </div>
     </form>
 </div>
